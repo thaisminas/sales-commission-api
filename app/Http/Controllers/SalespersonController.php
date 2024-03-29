@@ -28,7 +28,7 @@ class SalespersonController extends Controller
 
             $this->salespersonService->create($data);
 
-            return response()->json(['message' => 'Transaction created successfully'], 200);
+            return response()->json(['message' => 'Salesperson created successfully'], 200);
         }catch(\Exception $e){
             return response()->json(['error' => $e->getMessage()], 500);
         }

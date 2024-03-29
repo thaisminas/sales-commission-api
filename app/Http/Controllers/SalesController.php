@@ -24,13 +24,13 @@ class SalesController extends Controller
                 'sale_date' => 'required|string',
             ]);
 
-            $salesDTO = new SalesDTO(
-                $data['salesperson'],
-                $data['amount'],
-                $data['sale_date']
-            );
+            // $salesDTO = new SalesDTO(
+            //     $data['salesperson'],
+            //     $data['amount'],
+            //     $data['sale_date']
+            // );
 
-            $this->salesService->create($salesDTO);
+            $this->salesService->create($data);
 
             return response()->json(['message' => 'Sale registration with successfully'], 201);
         }catch(\Exception $e){
@@ -52,10 +52,25 @@ class SalesController extends Controller
     public function getSalesBySalllersId(Request $request): string
     {
         try{
-        
+
             $sales = $this->salesService->getSalesBySalllersId($request->route('id'));
 
             return response()->json($sales, 202);
+        }catch(\Exception $e){
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function getSalesReportBySalesperson(Request $request): string
+    {
+        try{
+
+            $report = $this->salesService->getSalesReportBySalesperson($request->route('id'));
+
+            return response()->json([
+                'report' => $report,
+                'statusCode' => 202
+            ]);
         }catch(\Exception $e){
             return response()->json(['error' => $e->getMessage()], 500);
         }

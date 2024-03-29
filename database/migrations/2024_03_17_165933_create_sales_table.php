@@ -18,6 +18,7 @@ class CreateSalesTable extends Migration
             $table->unsignedBigInteger('salesperson_id');
             $table->foreign('salesperson_id')->references('id')->on('sales');
             $table->decimal('amount', 10, 2);
+            $table->decimal('commission_amount');
             $table->date('sale_date');
             $table->timestamps();
         });
