@@ -26,8 +26,12 @@ class SalesService
         return $this->salesRepository->getSales();
     }
 
-    public function getSalesBySalllersId(int $params)
+    public function getSalesBySalllersId(int $id)
     {
-        return $this->salesRepository->getSalesBySalllersId($params);
+        if (!is_numeric($id)) {
+            throw new \Exception("Erro ao obter dados dos vendedores");
+        }
+
+        return $this->salesRepository->getSalesBySalllersId($id);
     }
 }

@@ -52,9 +52,8 @@ class SalesController extends Controller
     public function getSalesBySalllersId(Request $request): string
     {
         try{
-            dd($request->all());
-            
-            $sales = $this->salesService->getSalesBySalllersId($request->get('id'));
+        
+            $sales = $this->salesService->getSalesBySalllersId($request->route('id'));
 
             return response()->json($sales, 202);
         }catch(\Exception $e){

@@ -22,7 +22,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::group(['prefix' => 'salesperson'], function () {
     Route::get('', [SalespersonController::class, 'getSallers']);
-    // Route::get('{id}', [SalesController::class, 'getAllSales']);
     Route::post('',[SalespersonController::class, 'create']);
 });
 
