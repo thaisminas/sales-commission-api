@@ -2,27 +2,28 @@
 
 namespace App\Services;
 
-use App\DTOs\SalesDTO;
-use App\Models\Sales;
+use App\Exceptions\InvalidIdExceptins;
+use App\Helpers\CalculateCommission;
 use App\Repositories\SalesRepository;
-use SebastianBergmann\CodeCoverage\Util\Percentage;
 
-const PERCENTAGE = 8.5;
+
+
 
 class SalesService
 {
-    const PERCENTAGE = 8.5;
 
     private $salesRepository;
+    private $calculateCommission;
 
-    public function __construct(SalesRepository $salesRepository)
+    public function __construct(SalesRepository $salesRepository, CalculateCommission $calculateCommission)
     {
         $this->salesRepository = $salesRepository;
+        $this->calculateCommission = $calculateCommission;
     }
 
     public function create($params)
     {
-        $params['commission_amount'] = $this->calculateCommission($params['amount']);
+        $params['commission_amount'] = $this->calculateCommission->calculate($params['amount']);
         $sales = $this->salesRepository->create($params);
 
         return $sales;
@@ -36,16 +37,10 @@ class SalesService
     public function getSalesBySalllersId(int $id)
     {
         if (!is_numeric($id)) {
-            throw new \Exception("Erro ao obter dados dos vendedores");
+            throw new InvalidIdExceptins('Id infomed not is valid');
         }
 
         return $this->salesRepository->getSalesBySalllersId($id);
-    }
-
-
-    private function calculateCommission(float $salesValue)
-    {
-        return ($salesValue * self::PERCENTAGE) / 100;
     }
 
     public function getSalesReportBySalesperson($salespersonId)

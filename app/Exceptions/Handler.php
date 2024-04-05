@@ -35,6 +35,15 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $exception)
     {
+        if ($exception instanceof InvalidIdExceptins) {
+            return response()->json(
+                [
+                    'id' => $exception->getId(),
+                    'error' => $exception->errors(),
+                ]
+            )->setStatusCode(400);
+        }
+
         if ($exception instanceof ValidationException) {
             return response()->json(
                 [
